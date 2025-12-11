@@ -1,7 +1,10 @@
 using UnityEngine;
 
 public class QUIT_scrpt : MonoBehaviour
-{      void DoExitGame() {
+{      
+    public void DoExitGame() 
+        {
             Application.Quit();
+            Debug.Log("Game is exiting");
         }
 }

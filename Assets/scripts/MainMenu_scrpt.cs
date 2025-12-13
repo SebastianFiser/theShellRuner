@@ -7,5 +7,11 @@ public class MainMenu_scrpt : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(1);
     }
+    
+    public void openURLbmacf()
+    {
+        Application.OpenURL("https://github.com/SebastianFiser/theShellRuner/blob/main/REALLYREALLYSNEAKYFEATURE.md");
+    }
 
+    
 }

@@ -5,19 +5,19 @@ using System.ComponentModel;
 using System;
 using System.Collections;
 
-public class userTag : MonoBehaviour
+public class TerminalManager : MonoBehaviour
 {
     public TMP_Text tagText;
     public TMP_Text utTxt; 
     public RectTransform parentRect;     // přiřaď v Inspectoru nebo získej v Start()
-    public RectTransform textAreaRect;   // přiřaď v Inspectoru
+    public RectTransform textAreaRect; 
+    public TMP_InputField inputField;  // přiřaď v Inspectoru
+    private string input; 
     IEnumerator Start()
     {
-        string TagName = "Ultrasuperbignigga";
-        string TagMachine = "Linuxproutrahacker";
         if (tagText != null)
         {
-            tagText.text = TagName + "@" + TagMachine + ":~$";
+            tagText.text = TerminalState.TagName + "@" + TerminalState.TagMachine + ":" + TerminalState.dir + "$";
         }
         else
         {
@@ -70,6 +70,35 @@ public class userTag : MonoBehaviour
         Debug.Log($"userTag Sizing: parentWidth={parentWidth}, utPreferred={utPreferredWidth}, utUsed={utWidth}, textArea={textAreaWidth}");
     }
 
+    void printText(string input)
+    {
+        Debug.Log(input);
+        if (inputField != null)
+        {
+            inputField.SetTextWithoutNotify("");
+        }
+        else
+        {
+            Debug.LogWarning("Input Field is not assigned.");
+        }
+    }
 
+    public void GetInsideText(string text)
+    {
+        Debug.Log("funkce zavolána");
+        input = text;
+        Debug.LogWarning($"v GetIn.Text je input={input}");
+        
+        if (text != "")
+        {
+            printText(input);
+        }
+    }
 
+}
+public class TerminalState
+{
+    public static string TagName = "kybl";
+    public static string TagMachine = "linux";
+    public static string dir = "~";
 }

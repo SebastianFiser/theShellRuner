@@ -1,104 +1,27 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using System.ComponentModel;
-using System;
-using System.Collections;
+using TMPro;
 
-public class TerminalManager : MonoBehaviour
-{
-    public TMP_Text tagText;
-    public TMP_Text utTxt; 
-    public RectTransform parentRect;     // přiřaď v Inspectoru nebo získej v Start()
-    public RectTransform textAreaRect; 
-    public TMP_InputField inputField;  // přiřaď v Inspectoru
-    private string input; 
-    IEnumerator Start()
-    {
-        if (tagText != null)
-        {
-            tagText.text = TerminalState.TagName + "@" + TerminalState.TagMachine + ":" + TerminalState.dir + "$";
-        }
-        else
-        {
-            Debug.LogWarning("Input Field is not assigned.");
-        }
-// vypisující funkce do prefixu v terminále
-        yield return null;
-        Sizing();
-    }
-
-    public void Sizing()
-    {
-        Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(utTxt.rectTransform);
-
-        // získat parentRect automaticky, pokud není přiřazený:
-        if (parentRect == null && transform.parent != null)
-            parentRect = transform.parent.GetComponent<RectTransform>();
-
-        if (parentRect == null)
-        {
-            Debug.LogWarning("userTag: parentRect is not assigned and parent has no RectTransform.");
-            return;
-        }
-
-        float parentWidth = parentRect.rect.width;
-        float utPreferredWidth = utTxt.preferredWidth;
-        float spacing = 30f;
-        float minTextAreaWidth = 50f;
-
-        // cap utTxt width so both fields fit in parent
-        float maxUtWidth = Mathf.Max(0f, parentWidth - minTextAreaWidth - spacing);
-        float utWidth = Mathf.Min(utPreferredWidth, maxUtWidth);
-
-        // compute remaining width for the text area
-        float textAreaWidth = parentWidth - utWidth - spacing;
-        textAreaWidth = Mathf.Max(minTextAreaWidth, textAreaWidth);
-
-        // Apply sizes
-        if (textAreaRect != null)
-            textAreaRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, textAreaWidth);
-        else
-            Debug.LogWarning("userTag: textAreaRect is not assigned.");
-
-        if (utTxt != null && utTxt.rectTransform != null)
-            utTxt.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, utWidth);
-        else
-            Debug.LogWarning("userTag: utTxt RectTransform is not available.");
-
-        Debug.Log($"userTag Sizing: parentWidth={parentWidth}, utPreferred={utPreferredWidth}, utUsed={utWidth}, textArea={textAreaWidth}");
-    }
-
-    void printText(string input)
-    {
-        Debug.Log(input);
-        if (inputField != null)
-        {
-            inputField.SetTextWithoutNotify("");
-        }
-        else
-        {
-            Debug.LogWarning("Input Field is not assigned.");
-        }
-    }
-
-    public void GetInsideText(string text)
-    {
-        Debug.Log("funkce zavolána");
-        input = text;
-        Debug.LogWarning($"v GetIn.Text je input={input}");
-        
-        if (text != "")
-        {
-            printText(input);
-        }
-    }
-
-}
-public class TerminalState
-{
-    public static string TagName = "kybl";
-    public static string TagMachine = "linux";
-    public static string dir = "~";
-}
+///public class TerminalUIManager : MonoBehaviour
+///{
+///    [Header("UI Elements")]
+///    [SerializeField] RectTransform UTRect;
+///    [SerializeField] TMP_Text UTText;
+///    [SerializeField] TMP_InputField userInputField;
+///    [SerializeField] RectTransform userTextRect;
+///    [SerializeField] TMP_Text userText;
+///
+///    public void ReadText(string text)
+///        {
+///            Outputtext(text);
+///        }
+///    public void Outputtext(string text)
+///    {
+///        Debug.Log($"wrote {text}");
+///        if (userInputField != " ")
+///        {
+///            userInputField.SetTextWithoutNotify("");
+///            userInputField.ActivateInputField();
+///        }
+///    }
+///}

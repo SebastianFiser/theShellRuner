@@ -11,19 +11,26 @@ public class TerminalManager : MonoBehaviour
     public GameObject userInputLine;
     public ScrollRect sr;
     public GameObject msgList;
-
-    private void OnGUI()
+    void Update()
     {
-        if (terminalInput.isFocused && terminalInput.text != "" && Input.GetKeyDown(KeyCode.Return))
+        if (terminalInput.text != "" && Input.GetKeyDown(KeyCode.Return))
         {
             Debug.Log("kombinace vyplněna");
             //store whenever the user types
             string userInput = terminalInput.text;
+            Debug.Log("uložený input: " + userInput);
             //clear field
             ClearInputField();
 
             //Instantiate Gamebject with dir prefix
             AddDirectoryLine(userInput);
+
+            //move userinput line to the bottom
+            userInputLine.transform.SetAsLastSibling();
+
+            //refocus input
+            terminalInput.ActivateInputField();
+            terminalInput.Select();
         }
     }
 
@@ -49,7 +56,7 @@ public class TerminalManager : MonoBehaviour
         msg.transform.SetSiblingIndex(msgList.transform.childCount - 1);
 
         //set text of gameobj
-        msg.GetComponentsInChildren<Text>()[1].text = userInput;
+        msg.GetComponentsInChildren<TMP_Text>()[1].text = userInput;
     }
 
 }
